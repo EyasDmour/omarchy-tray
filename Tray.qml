@@ -109,15 +109,9 @@ BarWidget {
 
   readonly property bool drawerOut: revealProgress > 0.02
 
-  // The center fence is a vertical-bar concern: there the drawer expands
-  // straight through the center section. Opaque bars dim with the bar
-  // background; clear and glassy bars use a translucent dark tint so the
-  // wallpaper and center glyphs still recede. Horizontal bars leave the
-  // center alone.
-  // Glassy bars keep bar.transparent false, but already supply a translucent
-  // ground. Treat them as see-through too, so the drawer does not paint an
-  // opaque slab over it. Scoped bar facades omit glassy; their shell facade
-  // exposes the live bar config instead. Prefer a host's own flag when given.
+  // Vertical drawers dim with the bar background when opaque, or a dark
+  // tint when clear or glassy. Horizontal see-through bars need no backdrop.
+  // Scoped bar facades omit glassy, so read their live shell config instead.
   readonly property bool barTransparent: {
     if (!root.bar) return false
     if (root.bar.transparent === true) return true
