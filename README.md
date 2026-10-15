@@ -97,7 +97,9 @@ out along the bar, and the same drags capture, reorder, and eject widgets.
 Because a vertical drawer expands straight through the bar's center section,
 the center widgets dim and go inert while the drawer is out (with the bar
 background when the bar is opaque, with a translucent tint when it is
-transparent), so the two never fight for pixels or clicks.
+clear or glassy), so the two never fight for pixels or clicks. On horizontal
+bars, clear and glassy modes use the bar's own background without an extra
+drawer backdrop.
 
 ![Vertical bar: drawer, dimmed center, and manage popup](demo-vertical.gif)
 

@@ -110,12 +110,21 @@ BarWidget {
   readonly property bool drawerOut: revealProgress > 0.02
 
   // The center fence is a vertical-bar concern: there the drawer expands
-  // straight through the center section, so it dims in both bar modes — with
-  // the bar background when opaque, with a translucent dark tint when the
-  // bar is transparent (there is no background to dim against, but the
-  // wallpaper and center glyphs still recede). Horizontal bars leave the
-  // center alone: opaque needs no dimming, and transparent stays pristine.
-  readonly property bool barTransparent: root.bar ? root.bar.transparent === true : false
+  // straight through the center section. Opaque bars dim with the bar
+  // background; clear and glassy bars use a translucent dark tint so the
+  // wallpaper and center glyphs still recede. Horizontal bars leave the
+  // center alone.
+  // Glassy bars keep bar.transparent false, but already supply a translucent
+  // ground. Treat them as see-through too, so the drawer does not paint an
+  // opaque slab over it. Scoped bar facades omit glassy; their shell facade
+  // exposes the live bar config instead. Prefer a host's own flag when given.
+  readonly property bool barTransparent: {
+    if (!root.bar) return false
+    if (root.bar.transparent === true) return true
+    if (typeof root.bar.glassy === "boolean") return root.bar.glassy
+    var config = root.bar.shell ? root.bar.shell.barConfig : null
+    return !!config && config.background === "glassy"
+  }
 
   component ScrimBlock: Rectangle {
     parent: root.QsWindow && root.QsWindow.window ? root.QsWindow.window.contentItem : root
