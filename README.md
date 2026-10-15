@@ -105,6 +105,9 @@ drawer backdrop.
 
 ## Notes and limitations
 
+- After updating the plugin, run `omarchy restart shell` if the drawer still
+  paints its previous background. Some shell versions retain the cached QML
+  component even after logging that the plugin was hot-reloaded.
 - Panel hotkeys (`omarchy-shell` summon/toggle for e.g. the weather panel)
   only find widgets sitting directly in the bar layout; a widget captured into
   the tray still opens its panel by click, but not by hotkey. Restore it to
